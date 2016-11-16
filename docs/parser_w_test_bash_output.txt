@@ -1,0 +1,80 @@
+Give me a sentence:
+from the cabinet kill bear
+
+# word_list at start with input above
+[('stop', 'from'), ('stop', 'the'), ('nouns', 'cabinet'), ('verbs', 'kill'),
+	('nouns', 'bear')]
+
+# first call to parse_sentence
+parse_sentence received [('stop', 'from'), ('stop', 'the'), 
+						('nouns', 'cabinet'), ('verbs', 'kill'), ('nouns', 'bear')].
+
+# first call to skip
+skip received [('stop', 'from'), ('stop', 'the'), ('nouns', 'cabinet'),
+				('verbs', 'kill'), ('nouns', 'bear')] and stop.
+
+# first call to peek
+peek received [('stop', 'from'), ('stop', 'the'), ('nouns', 'cabinet'),
+				('verbs', 'kill'), ('nouns', 'bear')].
+
+# return from peek
+peek was True and returned: stop
+
+# first call to match
+match received [('stop', 'from'), ('stop', 'the'), ('nouns', 'cabinet'),
+				 ('verbs', 'kill'), ('nouns', 'bear')] and stop.
+
+# first return from match
+match == expecting and returned: ('stop', 'from')
+
+# second round to peek and match to strip the second stop word
+peek received [('stop', 'the'), ('nouns', 'cabinet'), ('verbs', 'kill'),
+				('nouns', 'bear')].
+peek was True and returned: stop
+match received [('stop', 'the'), ('nouns', 'cabinet'), ('verbs', 'kill'),
+				 ('nouns', 'bear')] and stop.
+match == expecting and returned: ('stop', 'the')
+
+# third round with first eligible word which is a noun is this case
+peek received [('nouns', 'cabinet'), ('verbs', 'kill'), ('nouns', 'bear')].
+peek was True and returned: nouns
+peek received [('nouns', 'cabinet'), ('verbs', 'kill'), ('nouns', 'bear')].
+peek was True and returned: nouns
+match received [('nouns', 'cabinet'), ('verbs', 'kill'),
+				 ('nouns', 'bear')] and nouns.
+match == expecting and returned: ('nouns', 'cabinet')
+
+# first call to parse_sentence if routine
+parse_sentence 'start == 'nouns'' True.
+
+# first call to parse_subject
+parse_subject received [('verbs', 'kill'), ('nouns', 'bear')] 
+						  and ('nouns', 'cabinet').
+
+# first call to parse_verbs
+parse_verb received [('verbs', 'kill'), ('nouns', 'bear')].
+skip received [('verbs', 'kill'), ('nouns', 'bear')] and stop.
+peek received [('verbs', 'kill'), ('nouns', 'bear')].
+peek was True and returned: verbs
+peek received [('verbs', 'kill'), ('nouns', 'bear')].
+peek was True and returned: verbs
+
+# first return from parse_verb
+parse_verb's peek call True and returns 'match(word_list, 'verb')'
+match received [('verbs', 'kill'), ('nouns', 'bear')] and verbs.
+match == expecting and returned: ('verbs', 'kill')
+
+# first call to parse_object
+parse_object received [('nouns', 'bear')].
+
+# first returns from parse_object
+skip received [('nouns', 'bear')] and stop.
+peek received [('nouns', 'bear')].
+	peek was True and returned: nouns
+	peek received [('nouns', 'bear')].
+	peek was True and returned: nouns
+match received [('nouns', 'bear')] and nouns.
+	match == expecting and returned: ('nouns', 'bear')
+
+# first return from parse_subject
+class Sentence was called with: cabinet, kill and bear
